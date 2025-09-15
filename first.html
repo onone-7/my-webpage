@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>星际探索 | 简单太空主题网站</title>
+    <style>
+        /* 基础样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: #050a18;
+            color: #fff;
+            line-height: 1.6;
+        }
+        
+        /* 简单星空背景 */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #eee, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 50px 160px, #ddd, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 180px 40px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 130px 80px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 230px 110px, #fff, rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 200px 200px;
+        }
+        
+        /* 导航栏 */
+        nav {
+            background: rgba(5, 10, 24, 0.9);
+            padding: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid #00f7ff;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #00f7ff;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            background: rgba(0, 247, 255, 0.2);
+        }
+        
+        /* 英雄区域 */
+        .hero {
+            height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .hero-content {
+            max-width: 600px;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #00f7ff;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #00f7ff;
+            color: #050a18;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: #00d6e0;
+        }
+        
+        /* 内容区域 */
+        .section {
+            padding: 60px 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            color: #00f7ff;
+        }
+        
+        /* 探索卡片 */
+        .explore-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .explore-card {
+            background: rgba(10, 20, 40, 0.8);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 247, 255, 0.2);
+        }
+        
+        .card-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+        
+        .card-content {
+            padding: 15px;
+        }
+        
+        .card-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: #00f7ff;
+        }
+        
+        .card-text {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+        
+        /* 宇宙数据 */
+        .data-section {
+            background: rgba(10, 20, 40, 0.5);
+        }
+        
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            text-align: center;
+        }
+        
+        .data-card {
+            padding: 30px 15px;
+            background: rgba(5, 10, 24, 0.8);
+            border-radius: 8px;
+            border: 1px solid rgba(0, 247, 255, 0.2);
+        }
+        
+        .data-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #00f7ff;
+            margin-bottom: 8px;
+        }
+        
+        .data-label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+        
+        /* 最新发现 */
+        .discovery-section .container {
+            text-align: center;
+        }
+        
+        .discovery-image {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 8px;
+            margin: 20px auto;
+            border: 1px solid rgba(0, 247, 255, 0.3);
+        }
+        
+        /* 订阅区域 */
+        .subscribe-section {
+            background: rgba(0, 247, 255, 0.05);
+            text-align: center;
+        }
+        
+        .subscribe-form {
+            max-width: 400px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .subscribe-input {
+            padding: 12px 15px;
+            border: 1px solid rgba(0, 247, 255, 0.3);
+            border-radius: 4px;
+            background: rgba(5, 10, 24, 0.8);
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+        }
+        
+        /* 页脚 */
+        footer {
+            background: rgba(5, 10, 24, 0.95);
+            padding: 30px 20px;
+            text-align: center;
+            border-top: 1px solid rgba(0, 247, 255, 0.2);
+        }
+        
+        .footer-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .footer-text {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 简单星空背景 -->
+    <div class="stars"></div>
+    
+    <!-- 导航栏 -->
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo">星际探索</a>
+            <div class="nav-links">
+                <a href="#home">首页</a>
+                <a href="#explore">探索</a>
+                <a href="#data">宇宙数据</a>
+                <a href="#discoveries">最新发现</a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- 英雄区域 -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>探索宇宙的奥秘</h1>
+            <p>了解太空探索的基础知识，感受宇宙的壮丽与神秘</p>
+            <a href="#explore" class="btn">开始探索</a>
+        </div>
+    </section>
+    
+    <!-- 探索区域 -->
+    <section class="section" id="explore">
+        <div class="container">
+            <h2 class="section-title">探索目标</h2>
+            <div class="explore-grid">
+                <div class="explore-card">
+                    <img src="https://picsum.photos/id/1/600/400" alt="月球探索" class="card-img">
+                    <div class="card-content">
+                        <h3 class="card-title">月球探索</h3>
+                        <p class="card-text">月球是地球的天然卫星，人类探索宇宙的第一步。了解月球的地质结构和资源。</p>
+                        <a href="#" class="btn">了解更多</a>
+                    </div>
+                </div>
+                <div class="explore-card">
+                    <img src="https://picsum.photos/id/2/600/400" alt="火星任务" class="card-img">
+                    <div class="card-content">
+                        <h3 class="card-title">火星任务</h3>
+                        <p class="card-text">红色星球火星是人类未来可能的居住地，探索火星的气候和地质特征。</p>
+                        <a href="#" class="btn">了解更多</a>
+                    </div>
+                </div>
+                <div class="explore-card">
+                    <img src="https://picsum.photos/id/3/600/400" alt="深空探测" class="card-img">
+                    <div class="card-content">
+                        <h3 class="card-title">深空探测</h3>
+                        <p class="card-text">探索太阳系外的神秘世界，研究黑洞、中子星等宇宙奇观。</p>
+                        <a href="#" class="btn">了解更多</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 宇宙数据区域 -->
+    <section class="section data-section" id="data">
+        <div class="container">
+            <h2 class="section-title">宇宙数据</h2>
+            <div class="data-grid">
+                <div class="data-card">
+                    <div class="data-number">138</div>
+                    <div class="data-label">宇宙年龄（亿年）</div>
+                </div>
+                <div class="data-card">
+                    <div class="data-number">2000</div>
+                    <div class="data-label">已知星系（亿个）</div>
+                </div>
+                <div class="data-card">
+                    <div class="data-number">299792</div>
+                    <div class="data-label">光速（公里/秒）</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 最新发现区域 -->
+    <section class="section" id="discoveries">
+        <div class="container">
+            <h2 class="section-title">最新发现</h2>
+            <p>科学家发现一颗位于宜居带的系外行星，可能存在液态水和适合生命存在的条件。</p>
+            <img src="https://picsum.photos/id/4/1200/600" alt="系外行星" class="discovery-image">
+        </div>
+    </section>
+    
+    <!-- 订阅区域 -->
+    <section class="section subscribe-section">
+        <div class="container">
+            <h2 class="section-title">订阅更新</h2>
+            <p>获取最新的太空探索资讯</p>
+            <form class="subscribe-form">
+                <input type="email" placeholder="您的邮箱地址" class="subscribe-input" required>
+                <button type="submit" class="btn">订阅</button>
+            </form>
+        </div>
+    </section>
+    
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-content">
+            <p class="footer-text">© 2023 星际探索 | 简单太空主题网站</p>
+        </div>
+    </footer>
+    
+    <script>
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 70,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // 订阅表单处理
+        document.querySelector('.subscribe-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const emailInput = document.querySelector('.subscribe-input');
+            const email = emailInput.value;
+            
+            // 简单的邮箱验证
+            if (email && email.includes('@')) {
+                alert('订阅成功！感谢您的关注！');
+                emailInput.value = '';
+            } else {
+                alert('请输入有效的邮箱地址！');
+            }
+        });
+    </script>
+</body>
+</html>
+</body>
+</html>
